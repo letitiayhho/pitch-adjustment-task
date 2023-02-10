@@ -118,7 +118,9 @@ def play_target(WIN, TONE_DUR, freq):
             break
 
 def get_displaced_freq(freq):
-    displacement = random.randint(-10, 10)
+    displacement = 0
+    while displacement = 0:
+        displacement = random.randint(-10, 10) # Sample until displacement is not 0
     displaced_freq = freq + displacement
     print(f'displaced_freq: {displaced_freq}')
     return(displaced_freq)
