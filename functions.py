@@ -52,11 +52,11 @@ def get_trial_num(LOG):
     trial_num = int(trial_num)
     return(trial_num)
 
-def get_n_trials(block):
+def get_n_trials(block, FREQS):
     if block == 0:
         n_trials = 3
     else:
-        n_trials = 20
+        n_trials = len(FREQS) # do each tone 1 time
     return(n_trials)
 
 def start(WIN, block):
@@ -88,13 +88,13 @@ def ready(WIN):
     event.waitKeys(keyList = ['return'])
     WIN.flip()
 
-def get_freqs_from_pdf(a, b):
-    x = np.arange(0, 1, 0.01)
-    r = beta.rvs(a, b, size = 100)
-    r = (r*950) + 50 # Stretch to 1000 Hz starting at 50 Hz
-    r = np.round(r/10)* 10 # Round to nearest 10 Hz
-    r = r.tolist()
-    return(r)
+# def get_freqs_from_pdf(a, b):
+#     x = np.arange(0, 1, 0.01)
+#     r = beta.rvs(a, b, size = 100)
+#     r = (r*950) + 50 # Stretch to 1000 Hz starting at 50 Hz
+#     r = np.round(r/10)* 10 # Round to nearest 10 Hz
+#     r = r.tolist()
+#     return(r)
 
 def get_freq(freqs, block):
     if block == 0: # don't drop the freq during training
@@ -118,10 +118,11 @@ def play_target(WIN, TONE_DUR, freq):
             break
 
 def get_displaced_freq(freq):
-    interval = random.randint(-10, 10)
-    displacement = interval * freq * 0.02 # displace at intervals of 20% original tone
-    displacement = round(displacement) # Round to nearest int
-    displaced_freq = freq + displacement
+    displacement = random.randint(-10, 10)
+    displaced_freq += displacement
+#     displacement = interval * freq * 0.02 # displace at intervals of 20% original tone
+#     displacement = round(displacement) # Round to nearest int
+#     displaced_freq = freq + displacement
     print(f'displaced_freq: {displaced_freq}')
     return(displaced_freq)
 
