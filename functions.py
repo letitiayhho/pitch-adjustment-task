@@ -119,10 +119,7 @@ def play_target(WIN, TONE_DUR, freq):
 
 def get_displaced_freq(freq):
     displacement = random.randint(-10, 10)
-    displaced_freq += displacement
-#     displacement = interval * freq * 0.02 # displace at intervals of 20% original tone
-#     displacement = round(displacement) # Round to nearest int
-#     displaced_freq = freq + displacement
+    displaced_freq = freq + displacement
     print(f'displaced_freq: {displaced_freq}')
     return(displaced_freq)
 
@@ -148,7 +145,6 @@ def pitch_adjustment(WIN, TONE_DUR, freq, displaced_freq):
     play_tone(WIN, TONE_DUR, displaced_freq)
 
     keylist = ['up', 'down', 'return']
-    interval = int(round(freq * 0.02))
 
     while True:
         keys = event.getKeys(keyList = keylist)
@@ -156,10 +152,10 @@ def pitch_adjustment(WIN, TONE_DUR, freq, displaced_freq):
             break
         elif keys:
             if 'up' in keys:
-                displaced_freq += interval
+                displaced_freq += 1
                 play_tone(WIN, TONE_DUR, displaced_freq)
             elif 'down' in keys:
-                displaced_freq -= interval
+                displaced_freq -= 1
                 play_tone(WIN, TONE_DUR, displaced_freq)
 
     response = displaced_freq
