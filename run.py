@@ -4,7 +4,7 @@ import random
 
 # --- Constants ---
 FREQS = [210, 230, 240, 250, 260, 270, 280, 290, 300, 310, 320, 340, 360, 380, 390, 400]
-TONE_DUR = 0.2
+TONE_DUR = 0.3
 WHITE_NOISE_DUR = 1
 BLOCKS = 2
 # a, b = 2, 10 # Params for beta pdf for freqs

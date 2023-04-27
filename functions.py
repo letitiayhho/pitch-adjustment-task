@@ -56,7 +56,8 @@ def get_n_trials(block, FREQS):
     if block == 0:
         n_trials = 3
     else:
-        n_trials = len(FREQS) # do each tone 1 time
+        n_trials = 30
+        #n_trials = len(FREQS) # do each tone 1 time
     return(n_trials)
 
 def start(WIN, block):
