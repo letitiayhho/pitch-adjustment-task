@@ -3,7 +3,7 @@ from functions import *
 from events import EventMarker
 
 # --- Constants ---
-FREQS = [200, 220, 240, 260, 280, 300, 320, 340, 360, 380, 400]
+FREQS = [200, 240, 260, 280, 300, 320, 340, 360, 380, 400] # excluding 220 as it is a musical note
 TONE_DUR = 0.2
 N_PRACTICE_TRIALS = 3
 N_TRIALS = 50
