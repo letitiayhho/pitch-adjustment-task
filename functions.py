@@ -33,7 +33,7 @@ def get_keyboard(dev_name):
     return Keyboard(idx)
 
 def open_log(SUB_NUM):
-    log = "data/logs/sub-" + SUB_NUM + ".log"
+    log = "logs/sub-" + SUB_NUM + ".log"
 
     if not os.path.isfile(log): # create log file if it doesn't exist
         print(f"Creating {log}")
