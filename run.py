@@ -1,45 +1,59 @@
 from psychtoolbox import WaitSecs
 from functions import *
-import random
+from events import EventMarker
 
 # --- Constants ---
-FREQS = [210, 230, 240, 250, 260, 270, 280, 290, 300, 310, 320, 340, 360, 380, 390, 400]
-TONE_DUR = 0.3
-WHITE_NOISE_DUR = 1
-BLOCKS = 2
-# a, b = 2, 10 # Params for beta pdf for freqs
+FREQS = [200, 220, 240, 260, 280, 300, 320, 340, 360, 380, 400]
+TONE_DUR = 0.2
+N_PRACTICE_TRIALS = 3
+N_TRIALS = 50
 
 # --- Task ---
 
 SUB_NUM = input('Input subject number: ')
 
-random.seed(int(SUB_NUM))
+#KB = get_keyboard('Dell Dell USB Entry Keyboard')
 WIN = get_window()
-# freqs = get_freqs_from_pdf(a, b)
+seed = set_seed(SUB_NUM)
+
 LOG = open_log(SUB_NUM)
+points = get_points(LOG)
 trial_num = get_trial_num(LOG)
 
-for block in range(BLOCKS + 1):
-    start(WIN, block)
-    ready(WIN)
-    n_trials = get_n_trials(block, FREQS)
-    while trial_num <= n_trials:
-        print(f'trial_num: {trial_num}')
-        freq, FREQS = get_freq(FREQS, block)
-        play_target(WIN, TONE_DUR, freq)
-        WaitSecs(np.random.uniform(0.3, 0.7))
-        white_noise(WHITE_NOISE_DUR)
-        WaitSecs(np.random.uniform(0.3, 0.7))
-        displaced_freq = get_displaced_freq(freq)
-        response = pitch_adjustment(WIN, TONE_DUR, freq, displaced_freq)
-        WaitSecs(0.5)
-        feedback(WIN, freq, response)
-        print(displaced_freq)
-        write_log(LOG, SUB_NUM, block, trial_num, freq, displaced_freq, response)
-        trial_num += 1
 
-    trial_num = 0
-    end(WIN, block)
+if trial_num < 2:
+    instructions(WIN)
+    practice_trial_num = 1
+    while practice_trial_num <= N_PRACTICE_TRIALS:
+        practice_ready(WIN, practice_trial_num)
+        freq = play_target(WIN, FREQS, TONE_DUR)
+        WaitSecs(0.5)
+        white_noise(1)
+        WaitSecs(0.5)
+        displaced_freq = play_displaced_target(WIN, TONE_DUR, freq)
+        response = pitch_adjustment(WIN, TONE_DUR, displaced_freq)
+        WaitSecs(0.5)
+        practice_feedback(WIN, freq, response, points)
+        practice_trial_num += 1
+
+
+start_block(WIN)
+while trial_num <= N_TRIALS:
+    print(f'trial_num: {trial_num}')
+    ready(WIN, trial_num)
+    freq = play_target(WIN, FREQS, TONE_DUR)
+    WaitSecs(0.5)
+    white_noise(1)
+    WaitSecs(0.5)
+    displaced_freq = play_displaced_target(WIN, TONE_DUR, freq)
+    response = pitch_adjustment(WIN, TONE_DUR, displaced_freq)
+    WaitSecs(0.5)
+    diff, points = feedback( freq, response, points)
+    write_log(LOG, seed, SUB_NUM, trial_num, freq, displaced_freq, response, diff, points)
+    trial_num += 1
+
+
+end(WIN, points)
 
 print("Block over :-)")
 core.quit()
