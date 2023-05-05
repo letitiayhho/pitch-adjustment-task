@@ -13,7 +13,7 @@ import pandas as pd
 def get_window():
     #WIN = visual.Window(size = (1920, 1080),
     WIN = visual.Window(size = (600, 400),
-    screen = -1,
+    #screen = -1,
     units = "norm",
     fullscr = False,
     pos = (0, 0),
